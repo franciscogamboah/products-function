@@ -42,8 +42,13 @@ Resources:
                 Resource: 'arn:aws:logs:*:*:*'
               - Effect: Allow
                 Action:
+                  - dynamodb:GetItem
                   - dynamodb:Scan
-                Resource: arn:aws:dynamodb:us-east-1:654654589924:table/stock
+                  - dynamodb:Query
+                Resource:
+                  - arn:aws:dynamodb:us-east-1:654654589924:table/stock
+                  - arn:aws:dynamodb:us-east-1:654654589924:table/skus
+
 
   ProductsResource:
     Type: AWS::ApiGateway::Resource
