@@ -44,7 +44,7 @@ Resources:
       MemorySize: 256
       Role: !Ref LambdaExecutionRole
       Code:
-        S3Bucket: order-function-deploy-654654589924-us-east-1
+        S3Bucket: product-function-deploy-654654589924-us-east-1
         S3Key: !Ref LambdaS3Key
 
   ProductsFunctionPermission:
