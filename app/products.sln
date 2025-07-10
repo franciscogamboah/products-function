@@ -1,0 +1,36 @@
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.0.31912.275
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{APPLICATION_GUID}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSLambda", "src\AWSLambda\AWSLambda.csproj", "{AWSLAMBDA_GUID}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{DOMAIN_GUID}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{INFRASTRUCTURE_GUID}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{APPLICATION_GUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{APPLICATION_GUID}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{APPLICATION_GUID}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{APPLICATION_GUID}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AWSLAMBDA_GUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AWSLAMBDA_GUID}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AWSLAMBDA_GUID}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AWSLAMBDA_GUID}.Release|Any CPU.Build.0 = Release|Any CPU
+		{DOMAIN_GUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{DOMAIN_GUID}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{DOMAIN_GUID}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{DOMAIN_GUID}.Release|Any CPU.Build.0 = Release|Any CPU
+		{INFRASTRUCTURE_GUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{INFRASTRUCTURE_GUID}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{INFRASTRUCTURE_GUID}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{INFRASTRUCTURE_GUID}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+EndGlobal

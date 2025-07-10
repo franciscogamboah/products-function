@@ -1,0 +1,83 @@
+AWSTemplateFormatVersion: '2010-09-09'
+Description: Crea Lambda products-function y vinculación con API Gateway REST existente
+
+Parameters:
+  LambdaS3Key:
+    Type: String
+    Description: Nombre del archivo ZIP del código de Lambda
+
+  RestApiId:
+    Type: String
+    Description: ID del API Gateway REST ya creado
+
+  RootResourceId:
+    Type: String
+    Description: ID del recurso /api ya creado en API Gateway
+
+  LambdaExecutionRole:
+    Type: String
+    Description: ARN del rol IAM existente que usará la función Lambda
+
+Resources:
+  ProductsResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref RestApiId
+      ParentId: !Ref RootResourceId
+      PathPart: products
+
+  ProductResource:
+    Type: AWS::ApiGateway::Resource
+    Properties:
+      RestApiId: !Ref RestApiId
+      ParentId: !Ref RootResourceId
+      PathPart: product
+
+  ProductsFunction:
+    Type: AWS::Lambda::Function
+    Properties:
+      FunctionName: products-function
+      Handler: AWSLambda::AWSLambda.Function::FunctionHandler
+      Runtime: dotnet8
+      Architectures: [x86_64]
+      Timeout: 30
+      MemorySize: 256
+      Role: !Ref LambdaExecutionRole
+      Code:
+        S3Bucket: order-function-deploy-654654589924-us-east-1
+        S3Key: !Ref LambdaS3Key
+
+  ProductsFunctionPermission:
+    Type: AWS::Lambda::Permission
+    DependsOn:
+      - GetProductsMethod
+    Properties:
+      FunctionName: !Ref ProductsFunction
+      Action: lambda:InvokeFunction
+      Principal: apigateway.amazonaws.com
+      SourceArn: !Sub arn:aws:execute-api:${AWS::Region}:${AWS::AccountId}:${RestApiId}/*/api/products
+
+  GetProductsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref RestApiId
+      ResourceId: !Ref ProductsResource
+      HttpMethod: GET
+      AuthorizationType: NONE
+      Integration:
+        IntegrationHttpMethod: POST
+        Type: AWS_PROXY
+        Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProductsFunction.Arn}/invocations
+
+  DevDeployment:
+    Type: AWS::ApiGateway::Deployment
+    DependsOn:
+      - GetProductsMethod
+    Properties:
+      RestApiId: !Ref RestApiId
+      StageName: dev
+
+Outputs:
+  LambdaFunctionName:
+    Description: Nombre de la función Lambda
+    Value: !Ref ProductsFunction

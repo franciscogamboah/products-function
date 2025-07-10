@@ -1,0 +1,61 @@
+name: Deploy Lambda to AWS
+
+on:
+  push:
+    branches: [main, master]
+  workflow_dispatch:
+
+env:
+  AWS_REGION: us-east-1
+  STACK_NAME: product-function-stack
+  LAMBDA_PACKAGE_KEY: product_function.zip
+  BUCKET_NAME: product-function-deploy-654654589924-us-east-1
+
+  REST_API_ID: ${{ secrets.REST_API_ID }}
+  ROOT_RESOURCE_ID: ${{ secrets.ROOT_RESOURCE_ID }}
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 📥 Checkout del código
+        uses: actions/checkout@v3
+
+      - name: 🧰 Instalar .NET SDK
+        uses: actions/setup-dotnet@v3
+        with:
+          dotnet-version: '8.0.x'
+
+      - name: 🛠 Publicar Lambda
+        run: dotnet publish ./app/src/AWSLambda/AWSLambda.csproj -c Release -o ./publish
+
+      - name: 📦 Crear ZIP de Lambda
+        run: |
+          cd publish
+          zip -r ../$LAMBDA_PACKAGE_KEY .
+          cd ..
+
+      - name: 🔐 Configurar credenciales AWS
+        uses: aws-actions/configure-aws-credentials@v2
+        with:
+          aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
+          aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
+          aws-region: ${{ env.AWS_REGION }}
+
+      - name: ☁️ Subir ZIP a S3
+        run: |
+          aws s3 cp $LAMBDA_PACKAGE_KEY s3://$BUCKET_NAME/$LAMBDA_PACKAGE_KEY
+
+      - name: 🚀 Desplegar CloudFormation
+        run: |
+          aws cloudformation deploy \
+            --template-file cloudformation/template.yml \
+            --stack-name $STACK_NAME \
+            --capabilities CAPABILITY_IAM \
+            --parameter-overrides \
+              LambdaS3Key=$LAMBDA_PACKAGE_KEY \
+              RestApiId=$REST_API_ID \
+              RootResourceId=$ROOT_RESOURCE_ID \
+              LambdaExecutionRole=arn:aws:iam::654654589924:role/service-role/lamb_gamboa-role-w0fpkkqf
+              
