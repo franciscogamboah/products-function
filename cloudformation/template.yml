@@ -26,13 +26,6 @@ Resources:
       ParentId: !Ref RootResourceId
       PathPart: products
 
-  ProductResource:
-    Type: AWS::ApiGateway::Resource
-    Properties:
-      RestApiId: !Ref RestApiId
-      ParentId: !Ref RootResourceId
-      PathPart: product
-
   ProductsFunction:
     Type: AWS::Lambda::Function
     Properties:
@@ -42,7 +35,7 @@ Resources:
       Architectures: [x86_64]
       Timeout: 30
       MemorySize: 256
-      Role: !Ref LambdaExecutionRoleArn   # <-- Referencia al rol existente
+      Role: !Ref LambdaExecutionRoleArn
       Code:
         S3Bucket: product-function-deploy-654654589924-us-east-1
         S3Key: !Ref LambdaS3Key
@@ -51,6 +44,7 @@ Resources:
     Type: AWS::Lambda::Permission
     DependsOn:
       - GetProductsMethod
+      - OptionsProductsMethod
     Properties:
       FunctionName: !Ref ProductsFunction
       Action: lambda:InvokeFunction
@@ -68,11 +62,44 @@ Resources:
         IntegrationHttpMethod: POST
         Type: AWS_PROXY
         Uri: !Sub arn:aws:apigateway:${AWS::Region}:lambda:path/2015-03-31/functions/${ProductsFunction.Arn}/invocations
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Methods: true
+
+  OptionsProductsMethod:
+    Type: AWS::ApiGateway::Method
+    Properties:
+      RestApiId: !Ref RestApiId
+      ResourceId: !Ref ProductsResource
+      HttpMethod: OPTIONS
+      AuthorizationType: NONE
+      Integration:
+        Type: MOCK
+        RequestTemplates:
+          application/json: '{"statusCode": 200}'
+        IntegrationResponses:
+          - StatusCode: 200
+            ResponseParameters:
+              method.response.header.Access-Control-Allow-Headers: "'Content-Type,X-Amz-Date,Authorization,X-Api-Key,X-Amz-Security-Token'"
+              method.response.header.Access-Control-Allow-Origin: "'*'"
+              method.response.header.Access-Control-Allow-Methods: "'GET,OPTIONS'"
+            ResponseTemplates:
+              application/json: ''
+      MethodResponses:
+        - StatusCode: 200
+          ResponseParameters:
+            method.response.header.Access-Control-Allow-Headers: true
+            method.response.header.Access-Control-Allow-Origin: true
+            method.response.header.Access-Control-Allow-Methods: true
 
   DevDeployment:
     Type: AWS::ApiGateway::Deployment
     DependsOn:
       - GetProductsMethod
+      - OptionsProductsMethod
     Properties:
       RestApiId: !Ref RestApiId
       StageName: dev
