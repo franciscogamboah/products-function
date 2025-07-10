@@ -52,10 +52,10 @@ jobs:
           aws cloudformation deploy \
             --template-file cloudformation/template.yml \
             --stack-name $STACK_NAME \
-            --capabilities CAPABILITY_IAM \
+            --capabilities CAPABILITY_NAMED_IAM \
             --parameter-overrides \
-              LambdaS3Key=$LAMBDA_PACKAGE_KEY \
-              RestApiId=$REST_API_ID \
-              RootResourceId=$ROOT_RESOURCE_ID \
-              LambdaExecutionRole=arn:aws:iam::654654589924:role/service-role/lamb_gamboa-role-w0fpkkqf
+                LambdaS3Key=$LAMBDA_PACKAGE_KEY \
+                RestApiId=$REST_API_ID \
+                RootResourceId=$ROOT_RESOURCE_ID
+
               
