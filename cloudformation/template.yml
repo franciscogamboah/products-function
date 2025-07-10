@@ -49,7 +49,6 @@ Resources:
                   - arn:aws:dynamodb:us-east-1:654654589924:table/stock
                   - arn:aws:dynamodb:us-east-1:654654589924:table/skus
 
-
   ProductsResource:
     Type: AWS::ApiGateway::Resource
     Properties:

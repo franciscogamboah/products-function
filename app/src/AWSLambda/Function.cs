@@ -22,9 +22,14 @@ public class Function
     {
         Logger.LogInformation("Inicio de la función");
 
-        if (request.HttpMethod != "GET")
+        if (request.HttpMethod != "GET" || request.HttpMethod == "OPTIONS")
         {
             return CreateCorsResponse(405, "Method Not Allowed");
+        }
+
+        if (request.HttpMethod == "OPTIONS")
+        {
+            return CreateCorsResponse(200, string.Empty);
         }
 
         try
