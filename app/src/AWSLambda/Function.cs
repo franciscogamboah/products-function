@@ -22,15 +22,11 @@ public class Function
     {
         Logger.LogInformation("Inicio de la función");
 
-        if (request.HttpMethod != "GET" || request.HttpMethod == "OPTIONS")
-        {
-            return CreateCorsResponse(405, "Method Not Allowed");
-        }
-
         if (request.HttpMethod == "OPTIONS")
-        {
             return CreateCorsResponse(200, string.Empty);
-        }
+
+        if (request.HttpMethod != "GET") // Si solo quieres GET
+            return CreateCorsResponse(405, "Method Not Allowed");
 
         try
         {
@@ -81,7 +77,7 @@ public class Function
             Headers = new Dictionary<string, string>
             {
                 { "Access-Control-Allow-Origin", "*" },
-                { "Access-Control-Allow-Methods", "GET" },
+                { "Access-Control-Allow-Methods", "GET, OPTIONS" },
                 { "Access-Control-Allow-Headers", "Content-Type, Authorization" }
             }
         };

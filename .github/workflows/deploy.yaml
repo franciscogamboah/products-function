@@ -10,6 +10,7 @@ env:
   STACK_NAME: product-function-stack
   LAMBDA_PACKAGE_KEY: product_function.zip
   BUCKET_NAME: product-function-deploy-654654589924-us-east-1
+  LAMBDA_EXEC_ROLE_ARN: arn:aws:iam::654654589924:role/products-function-execution-role
 
   REST_API_ID: ${{ secrets.REST_API_ID }}
   ROOT_RESOURCE_ID: ${{ secrets.ROOT_RESOURCE_ID }}
@@ -56,6 +57,8 @@ jobs:
             --parameter-overrides \
                 LambdaS3Key=$LAMBDA_PACKAGE_KEY \
                 RestApiId=$REST_API_ID \
-                RootResourceId=$ROOT_RESOURCE_ID
+                RootResourceId=$ROOT_RESOURCE_ID \
+                LambdaExecutionRoleArn=$LAMBDA_EXEC_ROLE_ARN
+
 
               

@@ -14,41 +14,11 @@ Parameters:
     Type: String
     Description: ID del recurso /api ya creado en API Gateway
 
-Resources:
-  ProductsLambdaExecutionRole:
-    Type: AWS::IAM::Role
-    Properties:
-      RoleName: products-function-execution-role
-      AssumeRolePolicyDocument:
-        Version: '2012-10-17'
-        Statement:
-          - Effect: Allow
-            Principal:
-              Service:
-                - lambda.amazonaws.com
-            Action:
-              - sts:AssumeRole
-      Path: /
-      Policies:
-        - PolicyName: LambdaLogsAndDynamoDBScan
-          PolicyDocument:
-            Version: '2012-10-17'
-            Statement:
-              - Effect: Allow
-                Action:
-                  - logs:CreateLogGroup
-                  - logs:CreateLogStream
-                  - logs:PutLogEvents
-                Resource: 'arn:aws:logs:*:*:*'
-              - Effect: Allow
-                Action:
-                  - dynamodb:GetItem
-                  - dynamodb:Scan
-                  - dynamodb:Query
-                Resource:
-                  - arn:aws:dynamodb:us-east-1:654654589924:table/stock
-                  - arn:aws:dynamodb:us-east-1:654654589924:table/skus
+  LambdaExecutionRoleArn:
+    Type: String
+    Description: ARN del rol IAM de ejecución de Lambda **YA EXISTENTE** (no será creado ni eliminado por esta plantilla)
 
+Resources:
   ProductsResource:
     Type: AWS::ApiGateway::Resource
     Properties:
@@ -72,7 +42,7 @@ Resources:
       Architectures: [x86_64]
       Timeout: 30
       MemorySize: 256
-      Role: !GetAtt ProductsLambdaExecutionRole.Arn
+      Role: !Ref LambdaExecutionRoleArn   # <-- Referencia al rol existente
       Code:
         S3Bucket: product-function-deploy-654654589924-us-east-1
         S3Key: !Ref LambdaS3Key
