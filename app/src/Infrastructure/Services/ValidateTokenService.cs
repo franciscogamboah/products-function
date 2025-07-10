@@ -1,10 +1,9 @@
 ﻿using Application.Common.Infrastructure;
 using System.Net.Http.Headers;
 
+namespace Infrastructure.Services;
 
-namespace Infrastructure.Repositories;
-
-public class ValidateTokenRepository : IValidateTokenRepository
+public class ValidateTokenService : IValidateTokenService
 {
     public async Task<bool> ValidateTokenWithRemoteAsync(string token)
     {

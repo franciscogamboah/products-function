@@ -1,6 +1,6 @@
 ﻿namespace Application.Common.Infrastructure
 {
-    public interface IValidateTokenRepository
+    public interface IValidateTokenService
     {
         Task<bool> ValidateTokenWithRemoteAsync(string token);
     }

@@ -2,13 +2,13 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31912.275
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{APPLICATION_GUID}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Application", "src\Application\Application.csproj", "{24D85667-7B5F-42AC-AF78-B85F404639BE}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSLambda", "src\AWSLambda\AWSLambda.csproj", "{AWSLAMBDA_GUID}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AWSLambda", "src\AWSLambda\AWSLambda.csproj", "{7AAEE7D5-0812-4E7D-AE34-4637110A6AED}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{DOMAIN_GUID}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Domain", "src\Domain\Domain.csproj", "{FC8BBC01-D4FD-46CA-B4C4-8752FEC666C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{INFRASTRUCTURE_GUID}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Infrastructure", "src\Infrastructure\Infrastructure.csproj", "{583E8517-34B7-430E-B615-FD8C2C320CE0}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -16,21 +16,24 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{APPLICATION_GUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{APPLICATION_GUID}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{APPLICATION_GUID}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{APPLICATION_GUID}.Release|Any CPU.Build.0 = Release|Any CPU
-		{AWSLAMBDA_GUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{AWSLAMBDA_GUID}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{AWSLAMBDA_GUID}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{AWSLAMBDA_GUID}.Release|Any CPU.Build.0 = Release|Any CPU
-		{DOMAIN_GUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{DOMAIN_GUID}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{DOMAIN_GUID}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{DOMAIN_GUID}.Release|Any CPU.Build.0 = Release|Any CPU
-		{INFRASTRUCTURE_GUID}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{INFRASTRUCTURE_GUID}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{INFRASTRUCTURE_GUID}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{INFRASTRUCTURE_GUID}.Release|Any CPU.Build.0 = Release|Any CPU
+		{24D85667-7B5F-42AC-AF78-B85F404639BE}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{24D85667-7B5F-42AC-AF78-B85F404639BE}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{24D85667-7B5F-42AC-AF78-B85F404639BE}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{24D85667-7B5F-42AC-AF78-B85F404639BE}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7AAEE7D5-0812-4E7D-AE34-4637110A6AED}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7AAEE7D5-0812-4E7D-AE34-4637110A6AED}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7AAEE7D5-0812-4E7D-AE34-4637110A6AED}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7AAEE7D5-0812-4E7D-AE34-4637110A6AED}.Release|Any CPU.Build.0 = Release|Any CPU
+		{FC8BBC01-D4FD-46CA-B4C4-8752FEC666C9}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{FC8BBC01-D4FD-46CA-B4C4-8752FEC666C9}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{FC8BBC01-D4FD-46CA-B4C4-8752FEC666C9}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{FC8BBC01-D4FD-46CA-B4C4-8752FEC666C9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{583E8517-34B7-430E-B615-FD8C2C320CE0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{583E8517-34B7-430E-B615-FD8C2C320CE0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{583E8517-34B7-430E-B615-FD8C2C320CE0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{583E8517-34B7-430E-B615-FD8C2C320CE0}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
 	EndGlobalSection
 EndGlobal

@@ -1,11 +1,12 @@
 ﻿using Amazon.DynamoDBv2;
 using Amazon.Lambda.APIGatewayEvents;
 using Amazon.Lambda.Core;
+using Application.Common.Infrastructure;
 using Application.Queries;
+using Application.Queries.ValidateJWT;
 using AWS.Lambda.Powertools.Logging;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
-using System.Text.Json;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -13,8 +14,8 @@ using System.Text.Json;
 namespace AWSLambda;
 public class Function
 {
-    private readonly IDynamoDbService _db = new DynamoDbService(new AmazonDynamoDBClient());
-    private readonly ProductService _productService = new ProductService(new AmazonDynamoDBClient());
+    private readonly DynamoDbRepository _productService = new DynamoDbRepository(new AmazonDynamoDBClient());
+    private readonly IValidateTokenService _validateTokenRepository = new ValidateTokenService();
 
     [Logging(LogEvent = true)]
     public async Task<APIGatewayProxyResponse> FunctionHandler(APIGatewayProxyRequest request, ILambdaContext context)
@@ -28,6 +29,25 @@ public class Function
 
         try
         {
+            if (!request.Headers.TryGetValue("Authorization", out var authHeader) || string.IsNullOrEmpty(authHeader))
+            {
+                return CreateCorsResponse(401, "Token no proporcionado");
+            }
+
+            var token = authHeader.StartsWith("Bearer ", StringComparison.OrdinalIgnoreCase)
+                ? authHeader.Substring("Bearer ".Length).Trim()
+                : authHeader.Trim();
+
+            var tokenIsValid = await new ValidateJWTQuery(_validateTokenRepository).Execute(token);
+
+            if (!tokenIsValid)
+            {
+                Logger.LogWarning("Token inválido: {token}", token);
+                return CreateCorsResponse(401, "Token inválido");
+            }
+
+            Logger.LogInformation("Token recibido: {token}", token);
+
             // Obtener parámetros de query string
             if (request.QueryStringParameters == null ||
                 !request.QueryStringParameters.TryGetValue("store_id", out var storeId) ||

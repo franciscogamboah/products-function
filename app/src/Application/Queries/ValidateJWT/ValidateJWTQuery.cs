@@ -7,9 +7,9 @@ namespace Application.Queries.ValidateJWT;
 public class ValidateJWTQuery
 {
     #region Declaraciones y Constructor
-    private readonly IValidateTokenRepository _validateTokenRepository;
+    private readonly IValidateTokenService _validateTokenRepository;
 
-    public ValidateJWTQuery(IValidateTokenRepository validateTokenRepository)
+    public ValidateJWTQuery(IValidateTokenService validateTokenRepository)
     {
         _validateTokenRepository = validateTokenRepository;
     }
