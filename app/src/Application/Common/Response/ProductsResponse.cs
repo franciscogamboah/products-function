@@ -4,8 +4,8 @@ namespace Application.Common.Response
 {
     public class ProductsResponse
     {
-        public string detail { get; set; } = string.Empty;
-        public int httpStatusCode { get; set; }
-        public string data { get; set; } = string.Empty;
+        public int Status { get; set; }
+        public string? Message { get; set; }
+        public dynamic? Data { get; set; }
     }
 }

@@ -2,7 +2,6 @@ using Application.Common.Infrastructure;
 using Application.Common.Response;
 using AWS.Lambda.Powertools.Logging;
 using System.Net;
-using System.Text.Json;
 
 namespace Application.Queries;
 public class GetProductsByStoreAndCategoryQuery
@@ -19,24 +18,29 @@ public class GetProductsByStoreAndCategoryQuery
         try
         {
             var products = await _db.GetProductsAsync(storeId, category);
+
             var response = new ProductsResponse
             {
-                detail = products.Count > 0 ? "Productos encontrados" : "No se encontraron productos",
-                httpStatusCode = (int)HttpStatusCode.OK,
-                data = JsonSerializer.Serialize(products)
+                Message = products.Count > 0 ? "Productos encontrados" : "No se encontraron productos",
+                Status = (int)HttpStatusCode.OK,
+                Data = products
             };
+
             Logger.LogInformation("Consulta de productos exitosa: {@response}", response);
+
             return response;
         }
         catch (Exception ex)
         {
             var request = new { StoreId = storeId, Category = category };
+
             Logger.LogError(ex, "Error al obtener productos {@request}", request);
+
             return new ProductsResponse
             {
-                detail = "Error interno del servidor",
-                httpStatusCode = (int)HttpStatusCode.InternalServerError,
-                data = string.Empty
+                Status = (int)HttpStatusCode.InternalServerError,
+                Message = "Error interno del servidor",
+                Data = null
             };
         }
     }

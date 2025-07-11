@@ -7,6 +7,7 @@ using Application.Queries.ValidateJWT;
 using AWS.Lambda.Powertools.Logging;
 using Infrastructure.Repositories;
 using Infrastructure.Services;
+using System.Text.Json;
 
 // Assembly attribute to enable the Lambda function's JSON input to be converted into a .NET class.
 [assembly: LambdaSerializer(typeof(Amazon.Lambda.Serialization.SystemTextJson.DefaultLambdaJsonSerializer))]
@@ -59,7 +60,7 @@ public class Function
 
             var result = await new GetProductsByStoreAndCategoryQuery(_productService).Execute(storeId, category);
             Logger.LogInformation("Fin de la función");
-            return CreateCorsResponse(result.httpStatusCode, result.data);
+            return CreateCorsResponse(result.Status, JsonSerializer.Serialize(result!));
         }
         catch (Exception ex)
         {
